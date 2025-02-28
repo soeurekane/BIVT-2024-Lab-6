@@ -1,0 +1,60 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+
+namespace Lab_6
+{
+    public class Green_1
+    {
+        public struct Participant
+        {
+            private string surname;
+            private string group;
+            private string trainer;
+            private double result;
+
+            private static readonly double standart;
+            private static int passedCount;
+
+            public string _surname => surname;
+            public string _group => group;
+            public string _trainer => trainer;
+            public double _result => result;
+
+            public static int PassedTheStarted => passedCount;
+            public bool HasPassed => result > 0 && result >= standart;
+
+            static Patricipant()
+            {
+                standart = 100;
+                passedCount = 0;
+            }
+            public Patricipant(string surname, string group, string trainer)
+            {
+                this.surname = surname;
+                this.group = group;
+                this.trainer = trainer;
+                this.result = 0;
+            }
+            public void Run(double result)
+            {
+                if (this.result == 0)
+                {
+                    this.result = result;
+                    if (HasPassed)
+                    {
+                        passedCount++;
+                    }
+                }
+            }
+            public void Print()
+            {
+                Console.WriteLine($"Фамилия:{surname}, Группа:{group}, Тренер:{trainer}, Результат:{result} сек.");
+                Console.WriteLine(HasPassed ? "Норматив пройден" : "Норматив не пройден");
+            }
+        }
+    }
+}
