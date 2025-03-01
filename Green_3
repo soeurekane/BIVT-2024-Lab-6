@@ -19,7 +19,7 @@ namespace Lab_6
             public string Name => name;
             public string Surname => surname;
             public int[] Marks => marks;
-            public double AvgMark => marks.Average()
+            public double AvgMark => marks.Average();
             public bool IsExpelled => isExpelled;
 
             public Student(string name, string surname)
@@ -31,15 +31,15 @@ namespace Lab_6
             }
 
             
-            public void Exam(int index, int mark)
+            public void Exam(int mark)
             {
-                if (marks.Length == 0 || marks == null)
+                if (marks == null || marks.Length == 0)
                 {
                     return;
                 }
                 for (int i = 0; i < marks.Length; i++)
                 {
-                    if (mark > 2)
+                    if (mark >= 2 && mark <= 5)
                     {
                         marks[i] = mark;
                     }
