@@ -27,12 +27,12 @@ namespace Lab_6
             public static int PassedTheStarted => passedCount;
             public bool HasPassed => result > 0 && result >= standart;
 
-            static Patricipant()
+            static Participant()
             {
                 standart = 100;
                 passedCount = 0;
             }
-            public Patricipant(string surname, string group, string trainer)
+            public Participant(string surname, string group, string trainer)
             {
                 this.surname = surname;
                 this.group = group;
