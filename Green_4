@@ -9,16 +9,16 @@ namespace Lab_6
 {
     public class Green_4
     {
-        public struct Participant
+        public class Participant
         {
             private string name;
             private string surname;
             private double[] jumps;
-            
+    
             public string Name => name;
             public string Surname => surname;
             public double[] Jumps => jumps;
-
+    
             public double BestJump()
             {
                 if (jumps == null || jumps.Length == 0)
@@ -34,19 +34,22 @@ namespace Lab_6
                     }
                 }
                 return best;
-            }   
+            }
+    
             public Participant(string name, string surname)
             {
                 this.name = name;
                 this.surname = surname;
-                this.jumps = new double[3] { 0, 0, 0 };
+                this.jumps = new double[3];
             }
+    
             public void Jump(double result)
             {
-                if (jumps == null || jumps.Length == 0) 
+                if (jumps == null || jumps.Length == 0)
                 {
                     return;
                 }
+    
                 for (int i = 0; i < jumps.Length; i++)
                 {
                     if (jumps[i] == 0)
@@ -56,8 +59,14 @@ namespace Lab_6
                     }
                 }
             }
+    
             public static void Sort(Participant[] array)
             {
+                if (array == null || array.Length == 0)
+                {
+                    return;
+                }
+    
                 int n = array.Length;
                 for (int i = 0; i < n - 1; i++)
                 {
@@ -72,11 +81,13 @@ namespace Lab_6
                     }
                 }
             }
-            public void Print() 
+    
+            public void Print()
             {
                 Console.WriteLine($"Участник: {Name} {Surname}");
                 Console.WriteLine($"Попытки: {string.Join(", ", Jumps)}");
-                Console.WriteLine($"Лучший результат: {BestJump()}");
+                Console.WriteLine($"Лучший результат: {BestJump():F2}");
+                Console.WriteLine();
             }
         }
     }
