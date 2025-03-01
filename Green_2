@@ -14,17 +14,16 @@ namespace Lab_6
             private string name;
             private string surname;
             private int[] marks;
-        
 
             public string Name => name;
             public string Surname => surname;
             public int[] Marks => marks;
-        
-            public Student(string name, string surname)
+
+            public Student(string name, string surname, int[] marks)
             {
                 this.name = name;
                 this.surname = surname;
-                this.marks = new int[4] { 0, 0, 0, 0 };
+                this.marks = marks;
             }
 
             public double AvgMark()
@@ -32,11 +31,11 @@ namespace Lab_6
                 double sum = 0;
                 int count = 0;
                 if (marks == null || marks.Length == 0)
-                    {
-                        return 0;
-                    }
+                {
+                    return 0;
+                }
 
-                for(int i = 0; i < marks.Length; i++)
+                for (int i = 0; i < marks.Length; i++)
                 {
                     if (marks[i] != 0)
                     {
@@ -50,12 +49,12 @@ namespace Lab_6
             public bool IsExcellent()
             {
                 if (marks == null || marks.Length == 0)
-                    {
-                        return false;
-                    }
+                {
+                    return false;
+                }
                 for (int i = 0; i < marks.Length; i++)
                 {
-                    if (marks[i] < 4 || marks[i] == 0)
+                    if (marks[i] != 0 && marks[i] < 5)
                     {
                         return false;
                     }
@@ -83,10 +82,10 @@ namespace Lab_6
             public static void SortByAvgMark(Student[] array)
             {
                 if (array == null || array.Length == 0)
-                { 
-                    return; 
+                {
+                    return;
                 }
-                
+
                 for (int i = 0; i < array.Length - 1; i++)
                 {
                     for (int j = i + 1; j < array.Length; j++)
@@ -103,11 +102,11 @@ namespace Lab_6
 
             public void Print()
             {
-            Console.WriteLine($"Студент: {Name} {Surname}");
-            Console.WriteLine($"Оценки: {string.Join(", ", Marks)}");
-            Console.WriteLine($"Средний балл: {AvgMark():F2}");
-            Console.WriteLine($"Отличник: {(IsExcellent() ? "Да" : "Нет")}");
-            Console.WriteLine();
+                Console.WriteLine($"Студент: {Name} {Surname}");
+                Console.WriteLine($"Оценки: {string.Join(", ", Marks)}");
+                Console.WriteLine($"Средний балл: {AvgMark():F2}");
+                Console.WriteLine($"Отличник: {(IsExcellent() ? "Да" : "Нет")}");
+                Console.WriteLine();
             }
         }
     }
