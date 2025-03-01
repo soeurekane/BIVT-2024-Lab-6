@@ -41,7 +41,7 @@ namespace Lab_6
             }
             public void Run(double result)
             {
-                if (this.result == 0)
+                if (this.result == 0 && result > 0)
                 {
                     this.result = result;
                     if (HasPassed)
