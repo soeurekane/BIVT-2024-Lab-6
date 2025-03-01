@@ -14,84 +14,106 @@ namespace Lab_6
             private string name;
             private string surname;
             private int[] marks;
-
+    
             public string Name => name;
             public string Surname => surname;
             public int[] Marks => marks;
-            public double AvgMark => marks.Average(); 
-
+            public double AvgMark => marks.Average();
+    
             public Student(string name, string surname, int[] marks)
             {
                 this.name = name;
                 this.surname = surname;
                 this.marks = marks;
             }
-
+    
             public void Exam(int subjectIndex, int mark)
             {
                 if (subjectIndex >= 0 && subjectIndex < marks.Length)
                     marks[subjectIndex] = mark;
             }
-
+    
             public void Print()
             {
                 Console.WriteLine($"{Name} {Surname} | Avg: {AvgMark:F2}");
             }
         }
-
+    
         public struct Group
         {
             private string name;
             private Student[] students;
-
+    
             public string Name => name;
             public Student[] Students => students;
-            public double AvgMark => students.Average(s => s.AvgMark); 
-
+            public double AvgMark => students.Average(s => s.AvgMark);
+    
             public Group(string name, Student[] students)
             {
                 this.name = name;
-                this.students = students;
+                this.students = students ?? throw new ArgumentNullException(nameof(students));
             }
-
+    
             public void Add(Student student)
             {
-                Array.Resize(ref students, students.Length + 1);
-                students[students.Length - 1] = student;
+                if (students == null)
+                {
+                    students = new Student[] { student };
+                }
+                else
+                {
+                    Array.Resize(ref students, students.Length + 1);
+                    students[students.Length - 1] = student;
+                }
             }
-
+    
             public void Add(Student[] newStudents)
             {
-                int oldSize = students.Length;
-                Array.Resize(ref students, oldSize + newStudents.Length);
-                Array.Copy(newStudents, 0, students, oldSize, newStudents.Length);
+                if (newStudents == null)
+                    throw new ArgumentNullException(nameof(newStudents));
+    
+                if (students == null)
+                {
+                    students = newStudents;
+                }
+                else
+                {
+                    int oldSize = students.Length;
+                    Array.Resize(ref students, oldSize + newStudents.Length);
+                    Array.Copy(newStudents, 0, students, oldSize, newStudents.Length);
+                }
             }
-
+    
             public void Print()
             {
                 Console.WriteLine($"Group: {Name} | Avg: {AvgMark:F2}");
+                foreach (var student in students)
+                {
+                    student.Print();
+                }
             }
-
+    
             public static void SortByAvgMark(Group[] groups)
             {
-                if (array == null || array.Length == 0)
+                if (groups == null || groups.Length == 0)
                 {
                     return;
                 }
-                int n = array.Length;
+                int n = groups.Length;
                 for (int i = 0; i < n - 1; i++)
                 {
                     for (int j = 0; j < n - i - 1; j++)
                     {
-                        if (array[j].AvgMark < array[j + 1].AvgMark)
+                        if (groups[j].AvgMark < groups[j + 1].AvgMark)
                         {
-                            Group temp = array[j];
-                            array[j] = array[j + 1];
-                            array[j + 1] = temp;
+                            Group temp = groups[j];
+                            groups[j] = groups[j + 1];
+                            groups[j + 1] = temp;
                         }
                     }
-                }  
-            }          
+                }
+            }
         }
     }
 }
+
