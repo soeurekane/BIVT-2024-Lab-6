@@ -15,48 +15,54 @@ namespace Lab_6
             private string surname;
             private int[] marks;
             private bool isExpelled;
-
+    
             public string Name => name;
             public string Surname => surname;
             public int[] Marks => marks;
-            public double AvgMark => marks.Average();
+            public double AvgMark => (marks[0] + marks[1] + marks[2]) / 3.0;
             public bool IsExpelled => isExpelled;
-
+    
             public Student(string name, string surname)
             {
                 this.name = name;
                 this.surname = surname;
-                this.marks = new int[3] { 0, 0, 0 }; 
+                this.marks = new int[3] { 0, 0, 0 };
                 this.isExpelled = false;
             }
-
-            
+    
             public void Exam(int mark)
             {
                 if (marks == null || marks.Length == 0)
                 {
                     return;
                 }
+    
                 for (int i = 0; i < marks.Length; i++)
                 {
-                    if (mark >= 2 && mark <= 5)
+                    if (marks[i] == 0) // Записываем оценку только в первую пустую ячейку
                     {
-                        marks[i] = mark;
-                    }
-                    else
-                    {
-                        break;
+                        if (mark >= 2 && mark <= 5)
+                        {
+                            marks[i] = mark;
+                        }
+                        break; // Прерываем цикл после записи оценки
                     }
                 }
+    
+                // Проверка на отчисление
+                if (marks.Count(m => m == 2) >= 2)
+                {
+                    isExpelled = true;
+                }
             }
-
+    
             public static void SortByAvgMark(Student[] array)
             {
                 if (array == null || array.Length == 0)
                 {
                     return;
                 }
-
+    
                 for (int i = 0; i < array.Length - 1; i++)
                 {
                     for (int j = i + 1; j < array.Length; j++)
@@ -70,10 +76,10 @@ namespace Lab_6
                     }
                 }
             }
-
+    
             public void Print()
             {
-                Console.WriteLine($"{Name} {Surname} {AvgMark:F2} {IsExpelled}");
+                Console.WriteLine($"{Name} {Surname} | Средний балл: {AvgMark:F2} | Отчислен: {(IsExpelled ? "Да" : "Нет")}");
             }
         }
     }
