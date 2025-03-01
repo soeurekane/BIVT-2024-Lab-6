@@ -11,7 +11,7 @@ namespace Lab_6
     {
         public struct Student
         {
-            ptivate string name;
+            private string name;
             private string surname;
             private int[] marks;
 
