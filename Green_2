@@ -31,12 +31,12 @@ namespace Lab_6
             {
                 double sum = 0;
                 int count = 0;
-                if (marks.Length == 0 || marks == null)
+                if (marks == null || marks.Length == 0)
                     {
                         return 0;
                     }
 
-                for(int i = 0, i < marks.Length; i++)
+                for(int i = 0; i < marks.Length; i++)
                 {
                     if (marks[i] != 0)
                     {
@@ -44,18 +44,18 @@ namespace Lab_6
                         count++;
                     }
                 }
-                return sum/count;
+                return count == 0 ? 0 : sum / count;
             }
 
             public bool IsExcellent()
             {
-                if (marks.Length == 0 || marks == null)
+                if (marks == null || marks.Length == 0)
                     {
                         return false;
                     }
                 for (int i = 0; i < marks.Length; i++)
                 {
-                    if (marks[i] < 4)
+                    if (marks[i] < 4 || marks[i] == 0)
                     {
                         return false;
                     }
@@ -65,10 +65,11 @@ namespace Lab_6
 
             public void Exam(int mark)
             {
-                if (marks.Length == 0 || marks == null)
+                if (marks == null || marks.Length == 0)
                 {
                     return;
                 }
+
                 for (int i = 0; i < marks.Length; i++)
                 {
                     if (marks[i] == 0)
@@ -90,7 +91,7 @@ namespace Lab_6
                 {
                     for (int j = i + 1; j < array.Length; j++)
                     {
-                        if (array[i].AvgMark < array[j].AvgMark)
+                        if (array[i].AvgMark() < array[j].AvgMark())
                         {
                             Student t = array[i];
                             array[i] = array[j];
@@ -104,8 +105,8 @@ namespace Lab_6
             {
             Console.WriteLine($"Студент: {Name} {Surname}");
             Console.WriteLine($"Оценки: {string.Join(", ", Marks)}");
-            Console.WriteLine($"Средний балл: {AvgMark:F2}");
-            Console.WriteLine($"Отличник: {(IsExcellent ? "Да" : "Нет")}");
+            Console.WriteLine($"Средний балл: {AvgMark():F2}");
+            Console.WriteLine($"Отличник: {(IsExcellent() ? "Да" : "Нет")}");
             Console.WriteLine();
             }
         }
