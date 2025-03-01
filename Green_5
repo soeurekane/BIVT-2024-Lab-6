@@ -18,65 +18,61 @@ namespace Lab_6
             public string Name => name;
             public string Surname => surname;
             public int[] Marks => marks;
-            public double AvgMark => marks.Average();
+            public double AvgMark => marks.Average(); 
 
-            public Student(string name, string surname)
+            public Student(string name, string surname, int[] marks)
             {
                 this.name = name;
                 this.surname = surname;
-                this.marks = new int[5] {0, 0, 0, 0, 0};
+                this.marks = marks;
             }
-            public void Exam(int mark)
+
+            public void Exam(int subjectIndex, int mark)
             {
-                if (marks.Length == 0 || marks == null)
-                {
-                    return;
-                }
-                for (int i = 0; i < marks.Length; i++)
-                {
-                    if (mark > 2)
-                    {
-                        marks[i] = mark;
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-            } 
+                if (subjectIndex >= 0 && subjectIndex < marks.Length)
+                    marks[subjectIndex] = mark;
+            }
+
             public void Print()
             {
-                Console.WriteLine($"Студент: {Name} {Surname}");
-                Console.WriteLine($"Оценки: {string.Join(", ", Marks)}");
-                Console.WriteLine($"Средний балл: {AvgMark:F2}");
-                Console.WriteLine();
+                Console.WriteLine($"{Name} {Surname} | Avg: {AvgMark:F2}");
             }
         }
+
         public struct Group
         {
             private string name;
-            private Student[] students; 
+            private Student[] students;
+
             public string Name => name;
             public Student[] Students => students;
-            public double AvgMark => students.Average();                public Group(string name)
+            public double AvgMark => students.Average(s => s.AvgMark); 
+
+            public Group(string name, Student[] students)
             {
                 this.name = name;
-                this.students = new Student[0];
+                this.students = students;
             }
+
             public void Add(Student student)
             {
-                students.Add(student);
-                Console.WriteLine($"Студент {student.Name} {student.Surname} добавлен в группу.");
+                Array.Resize(ref students, students.Length + 1);
+                students[students.Length - 1] = student;
             }
-            public void Add(params Student[] newStudents)
+
+            public void Add(Student[] newStudents)
             {
-                foreach (var student in newStudents)
-                {
-                    students.Add(student);
-                    Console.WriteLine($"Студент {student.Name} {student.Surname} добавлен в группу.");
-                }
+                int oldSize = students.Length;
+                Array.Resize(ref students, oldSize + newStudents.Length);
+                Array.Copy(newStudents, 0, students, oldSize, newStudents.Length);
             }
-            public static void SortByAvgMark(Group[] array)
+
+            public void Print()
+            {
+                Console.WriteLine($"Group: {Name} | Avg: {AvgMark:F2}");
+            }
+
+            public static void SortByAvgMark(Group[] groups)
             {
                 if (array == null || array.Length == 0)
                 {
@@ -94,18 +90,8 @@ namespace Lab_6
                             array[j + 1] = temp;
                         }
                     }
-                }
-            }
-            public void Print()
-            {
-                Console.WriteLine($"Группа: {Name}");
-                Console.WriteLine($"Средний балл группы: {AvgMark:F2}");
-                Console.WriteLine("Студенты:");
-                for (int i = 0; i < studentCount; i++)
-                {
-                    students[i].Print();
-                }
-            } 
+                }  
+            }          
         }
     }
 }
