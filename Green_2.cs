@@ -1,0 +1,111 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+
+namespace Lab_6
+{
+    public class Green_2
+    {
+        public struct Student
+        {
+            private string name;
+            private string surname;
+            private int[] marks;
+
+
+            public string Name => name;
+            public string Surname => surname;
+            public int[] Marks => marks;
+
+            public Student(string name, string surname)
+            {
+                this.name = name;
+                this.surname = surname;
+                this.marks = new int[4] { 0, 0, 0, 0 };
+            }
+            public bool IsExcellent
+            {
+                get
+                {
+                    for (int i = 0; i < marks.Length; i++)
+                    {
+                        if (marks[i] < 4)
+                        {
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+            }
+            public double AvgMark
+            {
+                get
+                {
+                    double s = 0;
+                    int k = 0;
+
+                    for (int i = 0; i < marks.Length; i++)
+                    {
+                        if (marks[i] != 0)
+                        {
+                            s += marks[i];
+                            k++;
+                        }
+                    }
+                    return k == 0 ? 0 : s / k;
+                }
+            }
+
+
+
+            public void Exam(int mark)
+            {
+                if (marks.Length == 0 || marks == null)
+                {
+                    return;
+                }
+                for (int i = 0; i < marks.Length; i++)
+                {
+                    if (marks[i] == 0)
+                    {
+                        marks[i] = mark;
+                        break;
+                    }
+                }
+            }
+
+            public static void SortByAvgMark(Student[] array)
+            {
+                if (array == null || array.Length == 0)
+                {
+                    return;
+                }
+
+                for (int i = 0; i < array.Length - 1; i++)
+                {
+                    for (int j = i + 1; j < array.Length; j++)
+                    {
+                        if (array[i].AvgMark < array[j].AvgMark)
+                        {
+                            Student t = array[i];
+                            array[i] = array[j];
+                            array[j] = t;
+                        }
+                    }
+                }  
+            }
+
+            public void Print()
+            {
+                Console.WriteLine($"КТо?: {Name} {Surname}");
+                Console.WriteLine(string.Join(", ", Marks));
+                Console.WriteLine($"СР Балл: {AvgMark:F2}");
+                Console.WriteLine(IsExcellent ? "Отличник" : "Не отличник");
+                Console.WriteLine();
+            }
+        }
+    }
+}
