@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -33,7 +33,7 @@ namespace Lab_6
             public string Name => name;
             public string Surname => surname;
             public int[] Marks => marks;
-            
+
 
             public Student(string name, string surname)
             {
@@ -65,14 +65,14 @@ namespace Lab_6
                 }
             }
 
-            public void Exam(int index, int mark)
+            public void Exam(int mark)
             {
                 if (isExpelled)
                 {
                     return;
                 }
 
-                if (mark < 2 || mark > 5) 
+                if (mark < 2 || mark > 5)
                 {
                     Console.WriteLine("Оценка должна быть от 2 до 5.");
                     return;
@@ -84,13 +84,16 @@ namespace Lab_6
                     return;
                 }
 
-                if (index >= 0 && index < marks.Length)
+
+                int index = 0;
+                index = Array.IndexOf(marks, 0);
+                if (index != -1)
                 {
                     marks[index] = mark;
                 }
                 else
                 {
-                    Console.WriteLine("Индекс должен быть от 0 до 2.");
+                    Console.WriteLine("все оценки получены");
                 }
             }
 
@@ -98,11 +101,16 @@ namespace Lab_6
 
             public void Print()
             {
+                Console.WriteLine("----------------------------------------");
                 Console.WriteLine($"Студент: {Name} {Surname}");
+
                 Console.WriteLine($"Оценки: {string.Join(", ", Marks)}");
+
                 Console.WriteLine($"СР Балл: {AvgMark:F2}");
+
                 Console.WriteLine($"Отчислен: {(IsExpelled ? "Да" : "Нет")}");
-                Console.WriteLine();
+                Console.WriteLine("----------------------------------------");
+         
             }
         }
     }
