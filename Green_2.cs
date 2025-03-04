@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Lab_6
 {
@@ -23,15 +27,19 @@ namespace Lab_6
                 this.marks = new int[4];
             }
 
-            public void Exam(int subjectIndex, int mark)
+            public void Exam(int mark)
             {
-                if (subjectIndex >= 0 && subjectIndex < marks.Length && marks[subjectIndex] == 0)
+                if (mark < 2 || mark > 5)
                 {
-                    marks[subjectIndex] = mark;
+                    return;
                 }
-                else
+                for (int i = 0; i < marks.Length; i++)
                 {
-                    Console.WriteLine("предмет уже сдан или неверный индекс");
+                    if (marks[i] == 0)
+                    {
+                        marks[i] = mark;
+                        return;
+                    }
                 }
             }
 

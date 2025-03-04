@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Lab_6
 {
@@ -26,16 +29,10 @@ namespace Lab_6
                 this.isExpelled = false;
             }
 
-            public void Exam(int subindex, int mark)
+            public void Exam(int mark)
             {
                 if (isExpelled)
                 {
-                    return;
-                }
-
-                if (subindex < 0 || subindex >= marks.Length)
-                {
-                    Console.WriteLine("неверный индекс предмета");
                     return;
                 }
 
@@ -44,20 +41,21 @@ namespace Lab_6
                     Console.WriteLine("оценка должна быть от 2 до 5");
                     return;
                 }
-
-                if (marks[subindex] != 0)
+                for (int i = 0; i < marks.Length; i++)
                 {
-                    Console.WriteLine("оценка по этому предмету уже выставлена");
-                    return;
-                }
+                    if (marks[i] == 0)
+                    {
+                        marks[i] = mark;
 
-                marks[subindex] = mark;
-
-                if (mark == 2)
-                {
-                    isExpelled = true;
-                    Console.WriteLine($"{Name} {Surname} отчислен за 2");
+                        if (mark == 2)
+                        {
+                            isExpelled = true;
+                            Console.WriteLine($"{Name} {Surname} отчислен за 2");
+                        }
+                        return;
+                    }
                 }
+                Console.WriteLine("все оценки уже выставлены");
             }
 
             public static void SortByAvgMark(Student[] array)
