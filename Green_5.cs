@@ -60,10 +60,10 @@ namespace Lab_6
                 public Student[] Students => students.ToArray();
                 public double AvgMark => students.Average(s => s.AvgMark);
 
-                public Group(string name, Student[] students)
+                public Group(string name)
                 {
                     this.name = name;
-                    this.students = students;
+                    this.students = new Student[0];
                 }
                 public void Add(Student student)
                 {
