@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Linq;
+using static Lab_6.Green_5;
 
 namespace Lab_6
 {
@@ -25,13 +26,15 @@ namespace Lab_6
 
             public void Exam(int subjectIndex, int mark)
             {
-                if (subjectIndex >= 0 && subjectIndex < marks.Length && marks[subjectIndex] == 0)
                 {
-                    marks[subjectIndex] = mark;
-                }
-                else
-                {
-                    Console.WriteLine("Ошибка: предмет уже сдан или неверный индекс.");
+                    for (int i = 0; i < marks.Length; i++)
+                    {
+                        if (marks[i] == 0) // Если оценка не была установлена
+                        {
+                            marks[i] = mark;
+                            break;
+                        }
+                    }
                 }
             }
 
@@ -51,17 +54,17 @@ namespace Lab_6
             public Student[] Students => students.ToArray();
             public double AvgMark => students.Average(s => s.AvgMark);
 
-            public Group(string name, Student[] students)
+            public Group(string name)
             {
                 this.name = name;
-                this.students = students ?? new Student[0];
+                this.students = new Student[0];
             }
 
             public void Add(Student[] newStudents)
             {
                 if (newStudents == null || newStudents.Length == 0)
                 {
-                    return; 
+                    return;
                 }
 
                 if (students == null)
