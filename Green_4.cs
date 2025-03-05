@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 
 namespace Lab_6
@@ -7,46 +7,46 @@ namespace Lab_6
     {
         public struct Participant
         {
-            private string name;
-            private string surname;
-            private double[] jumps;
+            private string name1;
+            private string surname1;
+            private double[] jumps1;
 
-            public string Name => name;
-            public string Surname => surname;
-            public double[] Jumps => jumps;
+            public string Name => name1;
+            public string Surname => surname1;
+            public double[] Jumps => jumps1;
 
             public double BestJump
             {
                 get
                 {
-                    if (jumps == null || jumps.Length == 0)
+                    if (jumps1 == null || jumps1.Length == 0)
                     {
                         return 0;
                     }
-                    return jumps.Max();
+                    return jumps1.Max();
                 }
             }
 
             public Participant(string name, string surname)
             {
-                this.name = name;
-                this.surname = surname;
-                this.jumps = new double[3] { 0, 0, 0 };
+                name1 = name;
+                surname1 = surname;
+                jumps1 = new double[3] { 0, 0, 0 };
             }
 
             public void Jump(double result)
             {
-                if (jumps == null || jumps.Length == 0)
+                if (jumps1 == null || jumps1.Length == 0)
                 {
                     return;
                 }
 
-                for (int i = 0; i < jumps.Length; i++)
+                for (int i = 0; i < jumps1.Length; i++)
                 {
-                    if (jumps[i] == 0)
+                    if (jumps1[i] == 0)
                     {
-                        jumps[i] = result;
-                        return; 
+                        jumps1[i] = result;
+                        return;
                     }
                 }
             }
@@ -65,7 +65,7 @@ namespace Lab_6
                     {
                         if (array[j].BestJump < array[j + 1].BestJump)
                         {
-                            
+
                             Participant temp = array[j];
                             array[j] = array[j + 1];
                             array[j + 1] = temp;
