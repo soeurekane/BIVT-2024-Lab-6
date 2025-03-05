@@ -8,56 +8,66 @@ namespace Lab_6
     {
         public struct Student
         {
-            private string name;
-            private string surname;
-            private int[] marks;
+            private string name1;
+            private string surname1;
+            private int[] marks1;
 
-            public string Name => name;
-            public string Surname => surname;
-            public int[] Marks => marks.ToArray();
-            public double AvgMark => marks.Average();
+            public string Name => name1;
+            public string Surname => surname1;
+            public int[] Marks => marks1.ToArray();
+            public double AvgMark => marks1.Average();
 
             public Student(string name, string surname)
             {
-                this.name = name;
-                this.surname = surname;
-                this.marks = new int[5];
+                name1 = name;
+                surname1 = surname;
+                marks1 = new int[5];
             }
 
-            public void Exam(int subjectIndex, int mark)
+            public void Exam(int mark)
             {
+                if (mark < 2 || mark > 5)
                 {
-                    for (int i = 0; i < marks.Length; i++)
+                    Console.WriteLine("не те оценки");
+                    return;
+                }
+                for (int i = 0; i < marks1.Length; i++)
+                {
+                    if (marks1[i] == 0)
                     {
-                        if (marks[i] == 0) // Если оценка не была установлена
-                        {
-                            marks[i] = mark;
-                            break;
-                        }
+                        marks1[i] = mark;
+                        return;
                     }
                 }
+
+                Console.WriteLine("написали всё");
             }
 
             public void Print()
             {
-                Console.WriteLine($"{Name} {Surname}");
-                Console.WriteLine($"Средний балл: {AvgMark:F2}");
+                Console.WriteLine($"{Name} {Surname}, ср арифм балл: {AvgMark:F2}");
             }
         }
 
         public struct Group
         {
-            private string name;
+            private string name1;
             private Student[] students;
 
-            public string Name => name;
+            public string Name => name1;
             public Student[] Students => students.ToArray();
             public double AvgMark => students.Average(s => s.AvgMark);
 
             public Group(string name)
             {
-                this.name = name;
-                this.students = new Student[0];
+                name1 = name;
+                students = new Student[0];
+            }
+
+            public void Add(Student student)
+            {
+                Array.Resize(ref students, students.Length + 1);
+                students[students.Length - 1] = student;
             }
 
             public void Add(Student[] newStudents)
@@ -66,22 +76,14 @@ namespace Lab_6
                 {
                     return;
                 }
-
-                if (students == null)
-                {
-                    students = newStudents;
-                }
-                else
-                {
-                    int a = students.Length;
-                    Array.Resize(ref students, a + newStudents.Length);
-                    Array.Copy(newStudents, 0, students, a, newStudents.Length);
-                }
+                var studentList = students.ToList();
+                studentList.AddRange(newStudents); // добавляем массив студентов
+                students = studentList.ToArray();
             }
 
             public void Print()
             {
-                Console.WriteLine($"Группа: {Name} | Средний балл: {AvgMark:F2}");
+                Console.WriteLine($"группа: {Name} , балл : {AvgMark:F2}");
 
                 foreach (var student in students)
                 {
