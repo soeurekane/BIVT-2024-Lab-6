@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,34 +10,58 @@ namespace Lab_6
     {
         public struct Participant
         {
-            private string name;
-            private string surname;
-            private double[] jumps;
+            private string _name;
+            private string _surname;
+            private double[] _jumps;
 
-            public string Name => name;
-            public string Surname => surname;
-            public double[] Jumps => jumps.ToArray();
-            public double BestJump => jumps.Max();
+            public string Name  => _name;
+            public string Surname  => _surname;
+            
+            public double[] Jumps
+            {
+                get
+                {
+                    if (_jumps == null) 
+                    {
+                        return null;
+                    }
+                    double[] arr = new double[_jumps.Length];
+                    Array.Copy(_jumps, arr, _jumps.Length);
+                    return arr;
+                }
+            }
+            public double BestJump
+            {
+                get
+                {
+                    if (_jumps == null || _jumps.Length == 0)
+                    {
+                        return 0;
+                    }
+                    return _jumps.Max();
+                }
+            }
+
 
             public Participant(string name, string surname)
             {
-                this.name = name;
-                this.surname = surname;
-                this.jumps = new double[3];
+                _name = name;
+                _surname = surname;
+                _jumps = new double[3];
             }
 
             public void Jump(double result)
             {
-                if (jumps == null || jumps.Length == 0)
+                if (_jumps == null)
                 {
                     return;
                 }
 
-                for (int i = 0; i < jumps.Length; i++)
+                for (int i = 0; i < _jumps.Length; i++)
                 {
-                    if (jumps[i] == 0)
+                    if (_jumps[i] == 0)
                     {
-                        jumps[i] = result;
+                        _jumps[i] = result;
                         return;
                     }
                 }

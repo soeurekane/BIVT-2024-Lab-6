@@ -1,7 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Lab_6
@@ -10,70 +11,126 @@ namespace Lab_6
     {
         public struct Student
         {
-            private string name;
-            private string surname;
-            private int[] marks;
-            private bool isExpelled;
+            private string _name;
+            private string _surname;
+            private int[] _marks;
+            private bool _isExpelled;
+            private int _count;
 
-            public string Name => name;
-            public string Surname => surname;
-            public int[] Marks => marks.ToArray();
-            public double AvgMark => marks.Average();
-            public bool IsExpelled => isExpelled;
+            public string Name => _name;
+            public string Surname => _surname;
+            public int[] Marks
+            {
+                get
+                {
+                    if (_marks == null) return null;
+                    int[] arr = new int[_marks.Length];
+                    Array.Copy(_marks, arr, _marks.Length);
+                    return arr;
+                }
+            }
+            public bool IsExpelled
+            {
+                get
+                {
+                    if (_count == 0)
+                    {
+                        return false;
+                    }
+                    for (int i = 0; i < _count; i++)
+                    {
+                        if (_marks[i] <= 2)
+                        {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+            }
+            public double AvgMark
+            {
+                get
+                {
+                    if (_marks == null || _marks.Length == 0) 
+                    {
+                        return 0;
+                    }
+
+                    double sum = 0;
+                    int count = 0;
+
+                    foreach (int mark in _marks)
+                    {
+                        if (mark != 0)
+                        {
+                            sum += mark;
+                            count++;
+                        }
+                    }
+                    if (count == 0) 
+                    {
+                        return 0;
+                    }
+                    return sum / count;
+                }
+            }
 
             public Student(string name, string surname)
             {
-                this.name = name;
-                this.surname = surname;
-                this.marks = new int[3];
-                this.isExpelled = false;
+                _name = name;
+                _surname = surname;
+                _marks = new int[3];
+                _isExpelled = false;
+                _count = 0;
             }
+
 
             public void Exam(int mark)
             {
-                if (isExpelled)
+                if (_marks == null) 
                 {
                     return;
                 }
-
-                if (mark < 2 || mark > 5)
+                if (_count >= 3)
                 {
-                    Console.WriteLine("оценка должна быть от 2 до 5");
                     return;
                 }
-                for (int i = 0; i < marks.Length; i++)
+                if (_isExpelled) 
                 {
-                    if (marks[i] == 0)
+                    return;
+                }
+                if (mark >= 2 && mark <= 5)
                     {
-                        marks[i] = mark;
-
-                        if (mark == 2)
-                        {
-                            isExpelled = true;
-                            Console.WriteLine($"{Name} {Surname} отчислен за 2");
-                        }
-                        return;
+                        _marks[_count] = mark;
+                        _count++;
                     }
+                else
+                    {
+                        _marks[_count] = mark;
+                        _count++;
+                        _isExpelled = true;
+                    }
+                if (mark <= 2)
+                {
+                    _isExpelled = true;
                 }
-                Console.WriteLine("все оценки уже выставлены");
             }
 
-            public static void SortByAvgMark(Student[] array)
+            public static void SortByAvgMark(Student [] array)
             {
-                if (array == null || array.Length == 0)
+                if (array == null) 
                 {
                     return;
                 }
-
                 for (int i = 0; i < array.Length - 1; i++)
                 {
                     for (int j = 0; j < array.Length - 1 - i; j++)
                     {
-                        if (array[j].AvgMark < array[j + 1].AvgMark)
+                        if (array[j].AvgMark < array[j+1].AvgMark)
                         {
-                            Student temp = array[j];
-                            array[j] = array[j + 1];
-                            array[j + 1] = temp;
+                            int temp = array[j];
+                            array[j] = array[j+1];
+                            array[j+1] = temp;
                         }
                     }
                 }
@@ -81,11 +138,7 @@ namespace Lab_6
 
             public void Print()
             {
-                Console.WriteLine($"Студент: {Name} {Surname}");
-                Console.WriteLine($"Оценки: {string.Join(", ", Marks)}");
-                Console.WriteLine($"Средний балл: {AvgMark:F2}");
-                Console.WriteLine($"Отчислен: {(IsExpelled ? "Да" : "Нет")}");
-                Console.WriteLine();
+                Console.WriteLine($"{Name} {Surname} {AvgMark:F2} {IsExpelled}");
             }
         }
     }

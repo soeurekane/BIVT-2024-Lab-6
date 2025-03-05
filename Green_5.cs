@@ -1,6 +1,9 @@
 using System;
-using System.Linq;
-using static Lab_6.Green_5;
+ using System.Collections.Generic;
+ using System.Linq;
+ using System.Text;
+ using System.Text.RegularExpressions;
+ using System.Threading.Tasks;
 
 namespace Lab_6
 {
@@ -8,35 +11,67 @@ namespace Lab_6
     {
         public struct Student
         {
-            private string name;
-            private string surname;
-            private int[] marks;
+            private string _name;
+            private string _surname;
+            private int[] _marks;
 
-            public string Name => name;
-            public string Surname => surname;
-            public int[] Marks => marks.ToArray();
-            public double AvgMark => marks.Average();
+            public string Name => _name;
+            public string Surname => _surname;
+            public int[] Marks
+            {
+                get
+                {
+                    if (_marks == null) 
+                    {
+                        return null;
+                    }
+                    int[] arr = new int[_marks.Length];
+                    Array.Copy(_marks, arr, _marks.Length);
+                    return arr;
+                }
+            }
+            public double AvgMark
+            {
+                get
+                {
+                    if (_marks == null || _marks.Length == 0)
+                    {
+                        return 0;
+                    }
+                    double summa = 0;
+                    for (int i = 0; i < _marks.Length; i++)
+                    {
+                        summa += _marks[i];
+                    }
+                    return summa / _marks.Length;
+                }
+            }
 
             public Student(string name, string surname)
             {
-                this.name = name;
-                this.surname = surname;
-                this.marks = new int[5];
+                _name = name;
+                _surname = surname;
+                _marks = new int[5];
             }
 
             public void Exam(int mark)
             {
-                if (mark < 2 || mark > 5)
+                if (_marks == null) 
                 {
-                    Console.WriteLine("не те оценки");
                     return;
                 }
-                for (int i = 0; i < marks.Length; i++)
+
+                if (mark < 2 || mark > 5)
                 {
-                    if (marks[i] == 0)
+                    return;
+                }
+
+                for (int i = 0; i < _marks.Length; i++)
+                {
+                    if (_marks[i] == 0)
                     {
-                        marks[i] = mark; 
-                        return; 
+                        _marks[i] = mark; 
+                        break; 
                     }
                 }
 
@@ -52,35 +87,60 @@ namespace Lab_6
 
         public struct Group
         {
-            private string name;
-            private Student[] students;
+            private string _name;
+            private Student[] _students;
+            private int _count;
 
-            public string Name => name;
-            public Student[] Students => students.ToArray();
-            public double AvgMark => students.Average(s => s.AvgMark);
+            public string Name => _name;
+            public Student[] Students => _students;
+            
+            public double AvgMark
+            {
+                get
+                {
+                    if (_students == null || _count == 0) 
+                    {
+                        return 0;
+                    }
+
+                    int valid_St = 0;
+                    double t_Avg = 0;
+                    
+                    for (int i = 0; i < _count; i++)
+                    {
+                        if (_students[i].AvgMark > 0)
+                        {
+                            t_Avg += _students[i].AvgMark;
+                            valid_St++;
+                        }
+                    }
+                    return valid_St == 0 ? 0 : t_Avg / valid_St;
+                }
+            }
 
             public Group(string name)
             {
-                this.name = name;
-                this.students = new Student[0];
+                _name = name;
+                _students = new Student[0];
+                _count = 0;
             }
 
             public void Add(Student student)
             {
-                var studentList = students.ToList(); // Преобразуем массив в список
-                studentList.Add(student); // Добавляем студента
-                students = studentList.ToArray(); // Преобразуем список обратно в массив
+                var studentList = students.ToList();
+                studentList.Add(student);
+                students = studentList.ToArray();
             }
 
-            public void Add(Student[] newStudents)
+            public void Add(Student[] Students)
             {
-                if (newStudents == null || newStudents.Length == 0)
+                if (Students == null || Students.Length == 0)
                 {
                     return;
                 }
 
                 var studentList = students.ToList();
-                studentList.AddRange(newStudents); // добавляем массив студентов
+                studentList.AddRange(newStudents);
                 students = studentList.ToArray();
             }
 

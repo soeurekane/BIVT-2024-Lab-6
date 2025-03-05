@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,34 +10,75 @@ namespace Lab_6
     {
         public struct Student
         {
-            private string name;
-            private string surname;
-            private int[] marks;
+            private string _name;
+            private string _surname;
+            private int[] _marks;
 
-            public string Name => name;
-            public string Surname => surname;
-            public int[] Marks => marks.ToArray();
-            public double AvgMark => marks.Average();
-            public bool IsExcellent => marks.All(mark => mark >= 4);
+            public string Name => _name;
+            public string Surname => _surname;
+            public int[] Marks
+            {
+                get
+                {
+                    if (_marks == null) return null;
+                    int[] arr = new int[_marks.Length];
+                    Array.Copy(_marks, arr, _marks.Length);
+                    return arr;
+                }
+            }
+            public double AvgMark
+            {
+                get
+                {
+                    if (_marks == null) return 0;
+
+                    double sum = 0;
+                    int k = 0;
+                    foreach (int mark in _marks)
+                    {
+                        if (mark != 0)
+                        {
+                            sum += mark;
+                            k++;
+                        }
+                    }
+                    if (k == 0) return 0;
+                    return sum / k;
+                }
+            }
+            public bool IsExcellent
+            {
+                get
+                {
+                    if (_marks == null || _marks.Length == 0) return false;
+                    foreach (int mark in _marks)
+                    {
+                        if (mark < 4)
+                            return false;
+                    }
+                    return true;
+                }
+            }
+
 
             public Student(string name, string surname)
             {
-                this.name = name;
-                this.surname = surname;
-                this.marks = new int[4];
+                 _name = name;
+                _surname = surname;
+                _marks = new int[4];
             }
 
             public void Exam(int mark)
             {
-                if (mark < 2 || mark > 5)
+                if (_mark < 2 || _mark > 5)
                 {
                     return;
                 }
-                for (int i = 0; i < marks.Length; i++)
+                for (int i = 0; i < _marks.Length; i++)
                 {
-                    if (marks[i] == 0)
+                    if (_marks[i] == 0)
                     {
-                        marks[i] = mark;
+                        _marks[i] = mark;
                         return;
                     }
                 }
