@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,28 +11,28 @@ namespace Lab_6
     {
         public struct Student
         {
-            private string name;
-            private string surname;
-            private int[] marks;
+            private string name1;
+            private string surname1;
+            private int[] marks1;
 
 
-            public string Name => name;
-            public string Surname => surname;
-            public int[] Marks => marks;
+            public string Name => name1;
+            public string Surname => surname1;
+            public int[] Marks => marks1;
 
             public Student(string name, string surname)
             {
-                this.name = name;
-                this.surname = surname;
-                this.marks = new int[4] { 0, 0, 0, 0 };
+                name1 = name;
+                surname1 = surname;
+                marks1 = new int[4] { 0, 0, 0, 0 };
             }
             public bool IsExcellent
             {
                 get
                 {
-                    for (int i = 0; i < marks.Length; i++)
+                    for (int i = 0; i < marks1.Length; i++)
                     {
-                        if (marks[i] < 4)
+                        if (marks1[i] < 4)
                         {
                             return false;
                         }
@@ -44,18 +44,16 @@ namespace Lab_6
             {
                 get
                 {
-                    double s = 0;
-                    int k = 0;
-
-                    for (int i = 0; i < marks.Length; i++)
+                    double sum = 0;
+                    foreach (var mark in marks1)
                     {
-                        if (marks[i] != 0)
-                        {
-                            s += marks[i];
-                            k++;
-                        }
+                        sum += mark;
                     }
-                    return k == 0 ? 0 : s / k;
+                    if (marks1.Length == 0)
+                    {
+                        return 0;
+                    }
+                    return sum / marks1.Length;
                 }
             }
 
@@ -63,16 +61,21 @@ namespace Lab_6
 
             public void Exam(int mark)
             {
-                if (marks.Length == 0 || marks == null)
+                if (mark < 2 || mark > 5)
+                {
+                    Console.WriteLine("неправильные   оценки");
+                    return;
+                }
+                if (marks1.Length == 0 || marks1 == null)
                 {
                     return;
                 }
-                for (int i = 0; i < marks.Length; i++)
+                for (int i = 0; i < marks1.Length; i++)
                 {
-                    if (marks[i] == 0)
+                    if (marks1[i] == 0)
                     {
-                        marks[i] = mark;
-                        break;
+                        marks1[i] = mark;
+                        return;
                     }
                 }
             }
@@ -95,7 +98,7 @@ namespace Lab_6
                             array[j] = t;
                         }
                     }
-                }  
+                }
             }
 
             public void Print()
