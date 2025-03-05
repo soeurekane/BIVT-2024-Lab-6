@@ -128,7 +128,7 @@ namespace Lab_6
                     {
                         if (array[j].AvgMark < array[j+1].AvgMark)
                         {
-                            int temp = array[j];
+                            Student temp = array[j];
                             array[j] = array[j+1];
                             array[j+1] = temp;
                         }

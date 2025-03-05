@@ -1,9 +1,9 @@
 using System;
- using System.Collections.Generic;
- using System.Linq;
- using System.Text;
- using System.Text.RegularExpressions;
- using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace Lab_6
 {
@@ -127,9 +127,9 @@ namespace Lab_6
 
             public void Add(Student student)
             {
-                var studentList = students.ToList();
+                var studentList = _students.ToList();
                 studentList.Add(student);
-                students = studentList.ToArray();
+                _students = studentList.ToArray();
             }
 
             public void Add(Student[] Students)
@@ -139,16 +139,16 @@ namespace Lab_6
                     return;
                 }
 
-                var studentList = students.ToList();
-                studentList.AddRange(newStudents);
-                students = studentList.ToArray();
+                var studentList = _students.ToList();
+                studentList.AddRange(Students);
+                _students = studentList.ToArray();
             }
 
             public void Print()
             {
                 Console.WriteLine($"Группа: {Name} | Средний балл: {AvgMark:F2}");
 
-                foreach (var student in students)
+                foreach (var student in _students)
                 {
                     student.Print();
                 }

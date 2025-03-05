@@ -70,7 +70,7 @@ namespace Lab_6
 
             public void Exam(int mark)
             {
-                if (_mark < 2 || _mark > 5)
+                if (mark < 2 || mark > 5)
                 {
                     return;
                 }
