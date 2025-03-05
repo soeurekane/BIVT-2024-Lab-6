@@ -11,36 +11,47 @@ namespace Lab_6
     {
         public struct Student
         {
-            private string name;
-            private string surname;
-            private int[] marks;
-            private bool isExpelled;
+            private string name1;
+            private string surname1;
+            private int[] marks1;
+            private bool isExpelled1;
+
 
 
             public double AvgMark
             {
                 get
                 {
-                    if (marks.All(m => m == 0))
+                    if (marks1 == null || marks1.Length == 0) return 0;
+
+                    double obsh = 0;
+                    int cnt = 0;
+                    foreach (int mark in marks1)
                     {
-                        return 0;
+                        if (mark != 0)
+                        {
+                            obsh += mark;
+                            cnt++;
+                        }
                     }
-                    return marks.Average();
+                    if (cnt == 0) return 0;
+                    return obsh / cnt;
                 }
             }
 
-            public bool IsExpelled => isExpelled;
-            public string Name => name;
-            public string Surname => surname;
-            public int[] Marks => marks;
+            public bool IsExpelled => isExpelled1;
+            public string Name => name1;
+            public string Surname => surname1;
+            public int[] Marks => marks1;
 
 
             public Student(string name, string surname)
             {
-                this.name = name;
-                this.surname = surname;
-                this.marks = new int[3] { 0, 0, 0 };
-                this.isExpelled = false;
+                name1 = name;
+                surname1 = surname;
+                marks1 = new int[3] { 0, 0, 0 };
+                isExpelled1 = false;
+
             }
 
 
@@ -67,7 +78,7 @@ namespace Lab_6
 
             public void Exam(int mark)
             {
-                if (isExpelled)
+                if (isExpelled1)
                 {
                     return;
                 }
@@ -80,16 +91,16 @@ namespace Lab_6
 
                 if (mark == 2)
                 {
-                    isExpelled = true;
+                    isExpelled1 = true;
                     return;
                 }
 
 
                 int index = 0;
-                index = Array.IndexOf(marks, 0);
+                index = Array.IndexOf(marks1, 0);
                 if (index != -1)
                 {
-                    marks[index] = mark;
+                    marks1[index] = mark;
                 }
                 else
                 {
@@ -110,7 +121,7 @@ namespace Lab_6
 
                 Console.WriteLine($"Отчислен: {(IsExpelled ? "Да" : "Нет")}");
                 Console.WriteLine("----------------------------------------");
-         
+
             }
         }
     }
