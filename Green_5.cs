@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,7 +21,7 @@ namespace Lab_6
             {
                 get
                 {
-                    if (_marks == null) 
+                    if (_marks == null)
                     {
                         return null;
                     }
@@ -56,7 +56,7 @@ namespace Lab_6
 
             public void Exam(int mark)
             {
-                if (_marks == null) 
+                if (_marks == null)
                 {
                     return;
                 }
@@ -70,8 +70,8 @@ namespace Lab_6
                 {
                     if (_marks[i] == 0)
                     {
-                        _marks[i] = mark; 
-                        break; 
+                        _marks[i] = mark;
+                        break;
                     }
                 }
 
@@ -93,19 +93,19 @@ namespace Lab_6
 
             public string Name => _name;
             public Student[] Students => _students;
-            
+
             public double AvgMark
             {
                 get
                 {
-                    if (_students == null || _count == 0) 
+                    if (_students == null || _count == 0)
                     {
                         return 0;
                     }
 
                     int valid_St = 0;
                     double t_Avg = 0;
-                    
+
                     for (int i = 0; i < _count; i++)
                     {
                         if (_students[i].AvgMark > 0)
@@ -127,21 +127,32 @@ namespace Lab_6
 
             public void Add(Student student)
             {
-                var studentList = _students.ToList();
-                studentList.Add(student);
-                _students = studentList.ToArray();
+                if (_students == null)
+                    _students = new Student[0];
+                Array.Resize(ref _students, _count + 1);
+                _students[_count] = student;
+                _count++;
             }
 
             public void Add(Student[] Students)
             {
-                if (Students == null || Students.Length == 0)
+                if (Students == null)
                 {
                     return;
                 }
+                if (_students == null)
+                {
+                    _students = new Student[0];
+                }
 
-                var studentList = _students.ToList();
-                studentList.AddRange(Students);
-                _students = studentList.ToArray();
+                int new_length = _count + Students.Length;
+
+                Array.Resize(ref _students, new_length);
+                for (int i = 0; i < Students.Length; i++)
+                {
+                    _students[_count + i] = Students[i];
+                }
+                _count = new_length;
             }
 
             public void Print()
@@ -157,22 +168,22 @@ namespace Lab_6
             public static void SortByAvgMark(Group[] groups)
             {
                 if (groups == null || groups.Length == 0)
-                {
                     return;
-                }
-
-                for (int i = 0; i < groups.Length - 1; i++)
+                bool t;
+                do
                 {
-                    for (int j = 0; j < groups.Length - 1 - i; j++)
+                    t = false;
+                    for (int i = 0; i < groups.Length - 1; i++)
                     {
-                        if (groups[j].AvgMark < groups[j + 1].AvgMark)
+                        if (groups[i].AvgMark < groups[i + 1].AvgMark)
                         {
-                            Group temp = groups[j];
-                            groups[j] = groups[j + 1];
-                            groups[j + 1] = temp;
+                            Group temp = groups[i];
+                            groups[i] = groups[i + 1];
+                            groups[i + 1] = temp;
+                            t = true;
                         }
                     }
-                }
+                } while (t);
             }
         }
     }
