@@ -13,7 +13,20 @@ namespace Lab_6
 
             public string Name => name1;
             public string Surname => surname1;
-            public double[] Jumps => jumps1;
+            public double[] Jumps
+            {
+                get
+                {
+                    if (jumps1 == null)
+                    {
+                        return null;
+                    }
+                    double[] arrays = new double[jumps1.Length];
+                    Array.Copy(jumps1, arrays, jumps1.Length);
+                    return arrays;
+                }
+            }
+
 
             public double BestJump
             {
@@ -77,9 +90,9 @@ namespace Lab_6
             public void Print()
             {
                 Console.WriteLine($"Спортсмен: {Name} {Surname}");
-                Console.WriteLine($"Прыжки: {string.Join(", ", Jumps)}");
-                Console.WriteLine($"Лучший результат: {BestJump:F2}");
-                Console.WriteLine();
+                Console.WriteLine($"все его Прыжки: {string.Join(", ", Jumps)}");
+                Console.WriteLine($" Самый Лучший Прыжок: {BestJump:F2}");
+                Console.WriteLine("--------------------");
             }
         }
     }
