@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -33,21 +33,9 @@ namespace Lab_6
             public string Trainer => trainer;
             public double Result => result;
 
-            public bool HasPassed => result > 0 && result >= standart;
+            public bool HasPassed => result > 0 && result <= standart;
             public static int PassedTheStandard => passedCount;
 
-
-            public void Run(double result)
-            {
-                if (this.result == 0)
-                {
-                    this.result = result;
-                    if (HasPassed)
-                    {
-                        passedCount++;
-                    }
-                }
-            }
 
 
             static Participant()
@@ -61,6 +49,29 @@ namespace Lab_6
                 this.group = group;
                 this.trainer = trainer;
                 this.result = 0;
+            }
+            public void Run(double result)
+            {
+                if (result <= 0)
+                {
+                    Console.WriteLine("неккоректный результат");
+                    return;
+                }
+                if (this.result == 0)
+                {
+                    this.result = result;
+
+
+                    if (HasPassed)
+                    {
+                        passedCount++;
+                    }
+                }
+                if (result <= 0)
+                {
+                    Console.WriteLine("уже есть");
+                    return;
+                }
             }
             public void Print()
             {
